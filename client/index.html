@@ -1,7 +1,179 @@
 <html>
-	<head>Battlespace Client</head>
-	
-	<body>
-		Battlespace Client
+	<head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="jquery.terminal.css"/>
+        <link rel="stylesheet" type="text/css" href="bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="ui.css"/>
+        <script type="text/javascript" src="jquery.min.js"></script>
+        <script type="text/javascript" src="bootstrap.js"></script>
+        <script type="text/javascript" src="jquery.terminal.js"></script>
+        <script type="text/javascript" src="three.js"></script>
+        <script type="text/javascript" src="raph.js"></script>
+        <script type="text/javascript" src="battlespace.client.js"></script>
+    </head>
+	<body style="background-color: #000">
+        <div class="container-fluid">
+          <div class="row-fluid">
+            <div id="_sidebar" class="span2">
+              <!--Nsv Bar -->
+                <div class="navbar">
+                  <div class="navbar-inner">
+                    <a class="brand" href="#"><h1>(/\)</h1></a>
+                    <ul class="nav">
+                      <li><a id="show" href="#myModal" role="button" class="btn" data-toggle="modal">Terminal</a></li>
+                         <li><a id="show" href="#myModal2" role="button" class="btn" data-toggle="modal">Audio</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div id="terminal2"></div>
+            </div>
+            <div class="span10">
+              <!--Body content-->
+              <div id="render" class="row-fluid" style="margin-right: 1px !important;margin-left: 1px !important;">
+                  
+              </div>
+                <div class="footer">
+                     <div class="navbar">
+                      <div class="navbar-inner">
+                        <a class="brand" href="#">[Player Name]</a>
+                        <ul class="nav">
+                          <li class="active"><a href="#">Home</a></li>
+                          <li><a href="#">Link</a></li>
+                          <li><a href="#">Link</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+          </div>
+        </div>
+
+
+       <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width:1024px;margin-left:1px;">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Modal header</h3>
+          </div>
+          <div class="modal-body">
+             <div id="control_terminal" class="span7 control-widget " style="background-color: #000">
+                <div id="terminal">
+                
+                </div>
+            </div>
+           
+          </div>
+          <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            <button class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+
+     <div id="myModal2" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width:1024px;margin-left:1px;">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Music</h3>
+          </div>
+          <div class="modal-body">
+            <div id="control_youtube" class="span4 control-widget " style="background-color: #000">
+                <iframe src="http://www.youtube.com/embed/pg5Ldwjhbec?feature=player_detailpage" frameborder="0"></iframe>
+                <!--<iframe width="640" height="360" src="http://www.youtube.com/embed/pg5Ldwjhbec?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>-->
+            </div>
+          
+          </div>
+          <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            <button class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+
+
+       
+        <script type="text/javascript">
+            $(function () {
+                $('.brand').on('click', function () {
+                    $('#_sidebar').toggle();
+                });
+                $('#terminal').terminal(function (command, term) {
+                    if (command !== '') {
+                        try {
+                            var result = window.eval(command);
+                            if (result !== undefined) {
+                                term.echo(new String(result));
+                            }
+                        } catch (e) {
+                            term.error(new String(e));
+                        }
+                    } else {
+                        term.echo('');
+                    }
+                }, {
+                    greetings: 'Javascript Interpreter',
+                    name: 'js_demo',
+                    height: 200,
+                    prompt: 'js> '
+                });
+
+
+                $('#terminal2').terminal(function (command, term) {
+                    if (command !== '') {
+                        try {
+                            var result = window.eval(command);
+                            if (result !== undefined) {
+                                term.echo(new String(result));
+                            }
+                        } catch (e) {
+                            term.error(new String(e));
+                        }
+                    } else {
+                        term.echo('');
+                    }
+                }, {
+                    greetings: 'Communications',
+                    name: '_player',
+                    height: 640,
+                    prompt: '> '
+                });
+            });
+
+            // Render 
+            var renderer = new THREE.WebGLRenderer();
+            renderer.setSize(1024, 688);
+            $('#render').append(renderer.domElement);
+            var scene = new THREE.Scene();
+            var camera = new THREE.PerspectiveCamera(
+                35,         // Field of view
+                800 / 640,  // Aspect ratio
+                .1,         // Near
+                10000       // Far
+            );
+            camera.position.set(-15, 10, 15);
+            camera.lookAt(scene.position);
+
+            var geometry = new THREE.CubeGeometry(5, 5, 5);
+            var material = new THREE.MeshLambertMaterial({ color: 0xFF0000 });
+            var mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+
+            $('.brand').on('click', function () {
+                $('#render').width(window.screen.availWidth);
+                renderer.setSize(window.screen.availWidth, 688);
+            });
+
+            var light = new THREE.PointLight(0xFFFF00);
+            light.position.set(10, 0, 10);
+            scene.add(light);
+            renderer.render(scene, camera);
+            var loader = new THREE.JSONLoader();
+            loader.load("meshes/obj_star_heavy_fighter.obj.js", function (geometry) {
+
+                console.log('loading');
+                var mesh = new THREE.Mesh(geometry, material);
+                mesh.scale.set(10, 10, 10);
+                mesh.position.set(1, 1, 1);
+                camera.lookAt(mesh.position);
+                scene.add(mesh);
+            });
+
+        </script>
 	</body>
 </html>

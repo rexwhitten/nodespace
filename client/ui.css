@@ -1,0 +1,56 @@
+body {
+}
+
+.control-center {
+    border-top-color: #e386f9;
+    border-top-style: solid;
+    border-top-width: 2px;
+    
+    border-bottom-color: #e386f9;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    
+    margin-top: 100px;
+    z-index: 900;
+    float: left;
+    width:  100%;
+    margin-left: 1px;
+    margin-right: 1px;
+}
+
+.control-widget {
+    border-top-color: #0ff;
+    border-top-style: solid;
+    border-top-width: 1px;
+    
+    border-bottom-color: #0ff;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    
+    border-left-color: #0ff;
+    border-left-style: solid;
+    border-left-width: 1px;
+    
+    border-right-color: #0ff;
+    border-right-style: solid;
+    border-right-width: 1px;
+    
+}
+
+#render { 
+    border-top-color: #0ff;
+    border-top-style: solid;
+    border-top-width: 1px;
+    
+    border-bottom-color: #0ff;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    
+    border-left-color: #0ff;
+    border-left-style: solid;
+    border-left-width: 1px;
+    
+    border-right-color: #0ff;
+    border-right-style: solid;
+    border-right-width: 1px;
+}
