@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Node Form</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="jquery.terminal.css"/>
+        <link rel="stylesheet" type="text/css" href="bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="ui.css"/>
+        <script type="text/javascript" src="jquery.min.js"></script>
+        <script type="text/javascript" src="bootstrap.js"></script>
+        <script type="text/javascript" src="jquery.terminal.js"></script>
+        <script type="text/javascript" src="three.js"></script>
+        <script type="text/javascript" src="raph.js"></script>
+        <script type="text/javascript" src="battlespace.client.js"></script>
+    </head>
+    <body>
+         <form>
+           <span>Key</span>
+           <input id="txt_object_name" type="text"/>
+           <span>Value</span>
+           <input id="txt_object_value" type="text"/>
+           <a id="submit">Submit</a>
+         </form>
+        <script type="text/javascript">
+            $('#submit').on('click', function () {
+
+                var url = '/data/?key=' + $('#txt_object_name').val();
+                var data = {};
+                data.val = $('#txt_object_value').val();
+                console.log(data);
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: data,
+                    error: function (e, x) {
+                        console.log(e);
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
